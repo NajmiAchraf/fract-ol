@@ -58,8 +58,8 @@ void Mandle(t_var *var, double _Complex c, double _Complex t, int counter, int c
 {
 	// To eliminate out of bound values.
 	if (cabs(t) > 2) {
-		pixel_put(var,  creal((c)) * var->height / 2 + var->width / 2 + var->mw,  
-						cimag((c)) * var->height / 2 + var->height / 2 + var->mh, 
+		pixel_put(var,  creal((c)) * var->height / 2 + var->width / 2 + var->mw,
+						cimag((c)) * var->height / 2 + var->height / 2 + var->mh,
 						mlx_get_color_value(var->mlx, 255 * ((1 - cos(cabs(t) / cabs(c))) / 2)));// COLOR(128 - 128 * cabs(t) / cabs(c), 128 - 128 * cabs(t) / cabs(c), 128 - 128 * cabs(t) / cabs(c)));
 		return ;
 	}
@@ -69,9 +69,9 @@ void Mandle(t_var *var, double _Complex c, double _Complex t, int counter, int c
 	// The more accurate the fractal is generated,
 	// however, higher values cause
 	// more processing time.
-	if (counter == 100) {
-		pixel_put(var,  creal((c)) * var->height / 2 + var->width / 2 + var->mw,  
-						cimag((c)) * var->height / 2 + var->height / 2 + var->mh, 
+	if (counter == 20) {
+		pixel_put(var,  creal((c)) * var->height / 2 + var->width / 2 + var->mw,
+						cimag((c)) * var->height / 2 + var->height / 2 + var->mh,
 						128 * cabs(t) / cabs(c) + color);//COLOR(255 * (cabs((t * t)) / cabs((t - c) * c)), 0, 0));
 		return ;
 	}
@@ -84,10 +84,6 @@ void Mandle(t_var *var, double _Complex c, double _Complex t, int counter, int c
 }
 
 void func(t_var *var){
-    double theta;
-	double N = 500;
-    double x1,x2,x3,x4,y1,y2,y3,y4;
-	double r = 150;
 	double x, y, sy, x0 = 500 + var->mw, y0 = 500 + var->mh;
 	long color;
 
@@ -96,39 +92,39 @@ void func(t_var *var){
 	double _Complex c;
 	int counter = 0;
 	for (double x = -2; x < 2; x += 0.0015) {
-        for (double y = -1; y < 1; y += 0.0015) {
-            c = x + y * _Complex_I;
-            Mandle(var, c, t, counter, color);
-        }
-    }
+		for (double y = -1; y < 1; y += 0.0015) {
+			c = x + y * _Complex_I;
+			Mandle(var, c, t, counter, color);
+		}
+	}
 }
 
 int	bind(int keycode, t_var *var)
 {
-    if (keycode == 123)
-        var->mw -= var->speed, printf("left %d\n", var->mw);
-    else if (keycode == 124)
-        var->mw += var->speed, printf("right %d\n", var->mw);
-    else if (keycode == 125)
-    	var->mh += var->speed, printf("down %d\n", var->mh);
-    else if (keycode == 126)
-        var->mh -= var->speed, printf("up %d\n", var->mh);
+	if (keycode == 65361)
+		var->mw -= var->speed, printf("left %d\n", var->mw);
+	else if (keycode == 65363)
+		var->mw += var->speed, printf("right %d\n", var->mw);
+	else if (keycode == 65364)
+		var->mh += var->speed, printf("down %d\n", var->mh);
+	else if (keycode == 65362)
+		var->mh -= var->speed, printf("up %d\n", var->mh);
 	reset(var);
-    if (keycode == 123 || keycode == 124 || keycode == 125 || keycode == 126)
+	if (keycode == 65364 || keycode == 65363 || keycode == 65362 || keycode == 65361)
 	{
 		mlx_clear_window(var->mlx, var->win);
 		func(var);
 	}
 
-    else if (keycode == 49)
-	    var->mw = 0, var->mh = 0, mlx_clear_window(var->mlx, var->win),func(var);
-    if (keycode == 53)
-	 {
+	else if (keycode == 32)
+		var->mw = 0, var->mh = 0, mlx_clear_window(var->mlx, var->win), func(var);
+	if (keycode == 65307)
+	{
 		mlx_destroy_window(var->mlx, var->win), printf("destroy\n");
 		exit(1);
 	}
-    printf("%d\n", keycode);
-    return (0);
+	printf("%d\n", keycode);
+	return (0);
 }
 
 int	main(void)
@@ -138,7 +134,7 @@ int	main(void)
 	var.mh = 0;
 	var.mw = 0;
 	var.speed = 200;
-	var.width = 1500; 
+	var.width = 1500;
 	var.height = var.width / 2;
 	var.mlx = mlx_init();
 	var.win = mlx_new_window(var.mlx, var.width, var.height, "FRACT'OL");

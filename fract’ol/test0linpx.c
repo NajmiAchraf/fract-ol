@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test0linpx.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: anajmi <anajmi@studetnt.1337.ma>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 17:12:01 by anajmi            #+#    #+#             */
-/*   Updated: 2021/12/24 16:29:28 by anajmi           ###   ########.fr       */
+/*   Updated: 2021/12/27 20:01:30 by anajmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct	s_var
 	int 	mw;
 	int		mh;
 	int		speed;
+	int		zoom;
 }				t_var;
 
 void reset(t_var *var){
@@ -71,39 +72,36 @@ void pixel_put(t_var *var, double x, double y, int color)
 	mlx_pixel_put(var->mlx, var->win, redirect_x(var, x), redirect_y(var, y), color);
 }
 
-void func(t_var *var, int each){
-    double theta;
+void func(t_var *var){
+	double theta;
 	double N = 500;
-    double x1,x2,x3,x4,y1,y2,y3,y4;
-	double r = 150;
+	double x1,x2,x3,x4,y1,y2,y3,y4;
+	double r = 150 + var->zoom;
 	double x, y, sy, x0 = 500 + var->mw, y0 = 500 + var->mh;
 	long color;
 	
-	color = 0x00FF00;
+	color = 0x00FF00FF;
 	for(theta = 0; theta <= 2 * M_PI; theta = theta + (1 / N)){
-		x1 = (theta30(theta) * theta30(theta) * cos(theta)) * 100;
-		x2 = (theta31(theta) * theta31(theta) * cos(theta)) * 100;
-		x3 = (theta32(theta) * theta32(theta) * cos(theta)) * 100;
-		x4 = (theta33(theta) * theta33(theta) * cos(theta)) * 100;
-		y1 = (theta30(theta) * theta30(theta) * sin(theta)) * 100;
-		y2 = (theta31(theta) * theta31(theta) * sin(theta)) * 100;
-		y3 = (theta32(theta) * theta32(theta) * sin(theta)) * 100;
-		y4 = (theta33(theta) * theta33(theta) * sin(theta)) * 100;
+		x1 = (theta30(theta) * theta30(theta) * cos(theta)) * r;
+		x2 = (theta31(theta) * theta31(theta) * cos(theta)) * r;
+		x3 = (theta32(theta) * theta32(theta) * cos(theta)) * r;
+		x4 = (theta33(theta) * theta33(theta) * cos(theta)) * r;
+		y1 = (theta30(theta) * theta30(theta) * sin(theta)) * r;
+		y2 = (theta31(theta) * theta31(theta) * sin(theta)) * r;
+		y3 = (theta32(theta) * theta32(theta) * sin(theta)) * r;
+		y4 = (theta33(theta) * theta33(theta) * sin(theta)) * r;
 		pixel_put(var, x1 + x0, y1 + y0, color);
 		pixel_put(var, x2 + x0, y2 + y0, color);
 		pixel_put(var, x3 + x0, y3 + y0, color);
 		pixel_put(var, x4 + x0, y4 + y0, color);
 	}
-	for (int i = 1; i < 8 ;i++){
- 		r = 50 * i;
-		for(y = y0 - r; y <= y0 + r; y = y + 0.1){
-			x = sqrt(r * r - (y - y0) * (y - y0)) + x0;
-			pixel_put(var, x, y, color);
-		}
-		for(y = y0 + r; y >= y0 - r; y = y - 0.1){
-			x = -sqrt(r * r - (y - y0) * (y - y0)) + x0;
-			pixel_put(var, x, y, color);
-		}
+	for(y = y0 - r; y <= y0 + r; y = y + 0.1){
+		x = sqrt(r * r - (y - y0) * (y - y0)) + x0;
+		pixel_put(var, x, y, color);
+	}
+	for(y = y0 + r; y >= y0 - r; y = y - 0.1){
+		x = -sqrt(r * r - (y - y0) * (y - y0)) + x0;
+		pixel_put(var, x, y, color);
 	}
 	y = var->height;
 	for(x = 0; x < var->width; x++){
@@ -114,29 +112,34 @@ void func(t_var *var, int each){
 
 int	bind(int keycode, t_var *var)
 {
-
-	mlx_clear_window(var->mlx, var->win);
-    if (keycode == 123)
-        var->mw -= var->speed, printf("left %d\n", var->mw);
-    else if (keycode == 124)
-        var->mw += var->speed, printf("right %d\n", var->mw);
-    else if (keycode == 125)
-    	var->mh += var->speed, printf("down %d\n", var->mh);
-    else if (keycode == 126)
-        var->mh -= var->speed, printf("up %d\n", var->mh);
+	if (keycode == 65361)
+		var->mw -= var->speed, printf("left %d\n", var->mw);
+	else if (keycode == 65363)
+		var->mw += var->speed, printf("right %d\n", var->mw);
+	else if (keycode == 65364)
+		var->mh += var->speed, printf("down %d\n", var->mh);
+	else if (keycode == 65362)
+		var->mh -= var->speed, printf("up %d\n", var->mh);
 	reset(var);
-    if (keycode == 123 || keycode == 124 || keycode == 125 || keycode == 126)
-	    func(var, 1);
+	if (keycode == 65451)
+		var->zoom += 50, printf("zoom plus %d\n", var->zoom);
+	else if (keycode == 65453)
+		var->zoom -= 50, printf("zoom minus %d\n", var->zoom);
+	if (keycode == 65364 || keycode == 65363 || keycode == 65362 || keycode == 65361 || keycode == 65451 || keycode == 65453)
+	{
+		mlx_clear_window(var->mlx, var->win);
+		func(var);
+	}
 
-    else if (keycode == 49)
-	    var->mw = 0, var->mh = 0, func(var, 1);
-    if (keycode == 53)
-	 {
+	else if (keycode == 32)
+		var->mw = 0, var->mh = 0, mlx_clear_window(var->mlx, var->win), func(var);
+	if (keycode == 65307)
+	{
 		mlx_destroy_window(var->mlx, var->win), printf("destroy\n");
 		exit(1);
 	}
-    printf("%d\n", keycode);
-    return (0);
+	printf("%d\n", keycode);
+	return (0);
 }
 
 int	main(void)
@@ -145,14 +148,18 @@ int	main(void)
 
 	var.mh = 0;
 	var.mw = 0;
-	var.speed = 5§0;
-	var.width = 1920; 
-	var.height = 1080;
+	var.speed = 50;
+	var.zoom = 0;
+	var.width = 2200;
+	var.height = var.width / 2;
 	var.mlx = mlx_init();
 	var.win = mlx_new_window(var.mlx, var.width, var.height, "FRACT'OL");
 
-	func(&var, 1);
-	mlx_hook(var.win, 2, 1L<<0, bind, &var);
+	func(&var);
+	mlx_hook(var.win, 02, (1L<<0), bind, &var);
+	// mlx_hook(var.win, 04, (1L<<2), bind, &var);
+	// mlx_hook(var.win, 05, 1L<<3, bind, &var);
+	// mlx_key_hook(var.win, bind, &var);
 	// mlx_hook(var.win, 3, 1L<<1, bind, &var);
 	mlx_loop(var.mlx);
 }
