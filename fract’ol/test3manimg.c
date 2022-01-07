@@ -6,7 +6,7 @@
 /*   By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 14:35:42 by anajmi            #+#    #+#             */
-/*   Updated: 2021/12/29 03:14:42 by anajmi           ###   ########.fr       */
+/*   Updated: 2022/01/04 15:23:55 by anajmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,36 +165,36 @@ int	bind(int keycode, t_var *var)
 	// mlx_clear_window(var->mlx, var->win);
 	// my_mlx_pixel_clear(var);
 	
-    if (keycode == 65361)
+    if (keycode == 123)
         var->mw -= var->speed, printf("left %d\n", var->mw);
-    else if (keycode == 65363)
+    else if (keycode == 124)
         var->mw += var->speed, printf("right %d\n", var->mw);
-    else if (keycode == 65364)
+    else if (keycode == 125)
     	var->mh += var->speed, printf("down %d\n", var->mh);
-    else if (keycode == 65362)
+    else if (keycode == 126)
         var->mh -= var->speed, printf("up %d\n", var->mh);
-    if (keycode == 65364 || keycode == 65363 || keycode == 65362 || keycode == 65361)
+    if (keycode == 123 || keycode == 124 || keycode == 125 || keycode == 126)
 	{
 		reset(var);
 		mlx_clear_window(var->mlx, var->win);
 		func(var);
 	}
-    else if (keycode == 32){
+    else if (keycode == 49){
 	    var->mw = 0, var->mh = 0, mlx_clear_window(var->mlx, var->win);
 		func(var);
 	}
-	if (keycode == 65451)
+	if (keycode == 69)
 		var->zoom += 0.1, printf("zoom plus %f\n", var->zoom);
-	else if (keycode == 65453)
+	else if (keycode == 78)
 		var->zoom -= 0.1, printf("zoom minus %f\n", var->zoom);
 
-    if (keycode == 65451 || keycode == 65453)
+    if (keycode == 69 || keycode == 78)
 	{
 		my_mlx_pixel_clear(var);
 		funcz(var);
 	}
 
-    if (keycode == 65307)
+    if (keycode == 53)
 	 {
 		mlx_destroy_window(var->mlx, var->win), printf("destroy\n");
 		exit(1);
