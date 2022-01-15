@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "compare": "c",
+        "functional": "c",
+        "type_traits": "c",
+        "libft.h": "c"
+    }
+}
