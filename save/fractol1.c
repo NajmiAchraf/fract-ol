@@ -64,9 +64,9 @@ void	funcmd(t_var *var)
 			var -> k = -1;
 			while (var -> k++ < 500)
 			{
-				var -> rtemp = var -> zr * var -> zr - var -> zi * var -> zi;
+				var -> zrtmp = var -> zr * var -> zr - var -> zi * var -> zi;
 				var -> zi = 2 * var -> zr * var -> zi + var -> ci;
-				var -> zr = var -> rtemp + var -> cr;
+				var -> zr = var -> zrtmp + var -> cr;
 				
 				var -> dist = sqrt(var -> zr * var -> zr + var -> zi * var -> zi);
 				if (var -> dist > 2.)

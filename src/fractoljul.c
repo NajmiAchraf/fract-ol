@@ -64,9 +64,9 @@ void	funcmd(t_var *var)
 				// var -> zi = 2 * var -> zr * var -> zi + var -> ci;
 				// var -> zr = var -> rtemp + var -> cr;
 
-				var -> rtemp = (var -> zr * var -> zr + var -> zi * var -> zi) * (n / 2) * cos(n * atan2(var -> zi, var -> zr)) + var -> cr;
+				var -> zrtmp = (var -> zr * var -> zr + var -> zi * var -> zi) * (n / 2) * cos(n * atan2(var -> zi, var -> zr)) + var -> cr;
 				var -> zi = (var -> zr * var -> zr + var -> zi * var -> zi) * (n / 2) * sin(n * atan2(var -> zi, var -> zr)) + var -> ci;
-				var -> zr = var -> rtemp;
+				var -> zr = var -> zrtmp;
 
 				var -> dist = sqrt(var -> zr * var -> zr + var -> zi * var -> zi);
 				if (var -> dist > 2)

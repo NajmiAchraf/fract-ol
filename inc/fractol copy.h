@@ -83,7 +83,7 @@ typedef struct s_var
 	long double		ci;
 	long double		zr;
 	long double		zi;
-	long double		rtemp;
+	long double		zrtmp;
 	long double		dist; //should delete
 	int				func;
 }					t_var;

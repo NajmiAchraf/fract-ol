@@ -56,9 +56,9 @@ void	mandelbrot(t_var *var)
 	var->k = -1;
 	while (var->k++ < 500)
 	{
-		var->rtemp = var->zr * var->zr - var->zi * var->zi;
+		var->zrtmp = var->zr * var->zr - var->zi * var->zi;
 		var->zi = 2 * var->zr * var->zi + var->ci;
-		var->zr = var->rtemp + var->cr;
+		var->zr = var->zrtmp + var->cr;
 		if (sqrt(var->zr * var->zr + var->zi * var->zi) > 2.)
 		{
 			put_pixel_to_image(var, var->re, var->im, colors[var->k % 16]);
@@ -67,18 +67,39 @@ void	mandelbrot(t_var *var)
 	}
 }
 
-void	julia(t_var *var)
+void	mandelbrot2(t_var *var)
 {
 	var->cr = get_pos(var, var->org_re, var->re);
 	var->ci = get_neg(var, var->org_im, var->im);
 	var->zr = 0;
 	var->zi = 0;
 	var->k = -1;
-	while (var->k++ < 500)
+	while ((var->zr * var->zr + var->zi * var->zi) < 4  &&  var->k++ < 50) 
 	{
-		var->rtemp = var->zr * var->zr - var->zi * var->zi;
+		var->zrtmp = var->zr * var->zr - var->zi * var->zi;
 		var->zi = 2 * var->zr * var->zi + var->ci;
-		var->zr = var->rtemp + var->cr;
+		var->zr = var->zrtmp + var->cr;
+	}
+	if (var->k == 51)
+		put_pixel_to_image(var, var->re, var->im, 0x00000000);
+	else
+		put_pixel_to_image(var, var->re, var->im, colors[var->k % 16]);
+}
+
+void	julia(t_var *var)
+{
+	int n = 1;
+
+	var->cr = get_pos(var, var->org_re, var->re);
+	var->ci = get_neg(var, var->org_im, var->im);
+	var->zr = var->x;
+	var->zi = var->y;
+	var->k = -1;
+	while (var->k++ < 50)
+	{
+		var->zrtmp = (var->zr * var->zr + var->zi * var->zi) * (n / 2) * cos(n * atan2(var->zi, var->zr)) + var->cr;
+		var->zi = (var->zr * var->zr + var->zi * var->zi) * (n / 2) * sin(n * atan2(var->zi, var->zr)) + var->ci;
+		var->zr = var->zrtmp;
 		if (sqrt(var->zr * var->zr + var->zi * var->zi) > 2.)
 		{
 			put_pixel_to_image(var, var->re, var->im, colors[var->k % 16]);
@@ -87,6 +108,29 @@ void	julia(t_var *var)
 	}
 }
 
+void	test(t_var *var)
+{
+	int n = 2;
+	// var->cr = get_pos(var, var->org_re, var->re);
+	// var->ci = get_neg(var, var->org_im, var->im);
+
+  	var->cr = -0.7;
+  	var->ci = 0.27015;
+	var->zr = var->x;
+	var->zi = var->y;
+	var->k = -1;
+    while ((var->zr * var->zr + var->zi * var->zi) < 4  &&  var->k++ < 50) 
+    {
+		var->zrtmp = (var->zr * var->zr + var->zi * var->zi) * (n / 2) * cos(n * atan2(var->zi, var->zr)) + var->cr;
+		var->zi = (var->zr * var->zr + var->zi * var->zi) * (n / 2) * sin(n * atan2(var->zi, var->zr)) + var->ci;
+		var->zr = var->zrtmp;
+    }
+  
+    if (var->k == 51)
+		put_pixel_to_image(var, var->re, var->im, 0x00000000);
+    else
+		put_pixel_to_image(var, var->re, var->im, colors[var->k % 16]);
+}
 void	plot(t_var *var)
 {
 	var->re = -1;
@@ -99,6 +143,8 @@ void	plot(t_var *var)
 				mandelbrot(var);
 			else if (var->func == 2)
 				julia(var);
+			else if (var->func == 3)
+				test(var);
 		}
 	}
 	show_image(var);
@@ -168,9 +214,16 @@ int	mouse_position(int x, int y, t_var *var)
 	var->x = x;
 	var->y = y;
 	/*
-	var -> _originR = var -> originR + (x - THWT / 2) * var -> scaleFactor;
-	var -> _originI = var -> originI - (y - THWT / 2) * var -> scaleFactor;
+	var->_originR = var->originR + (x - THWT / 2) * var->scaleFactor;
+	var->_originI = var->originI - (y - THWT / 2) * var->scaleFactor;
 	*/
+
+	// var->x = (-(x - THWT / 2.)*4.) / (THWT/2.), var->y = ((y - THWT / 2.)*4.)/ (THWT/2.);
+
+	var->x = get_pos(var, var->org_re, x);
+	var->y = get_neg(var, var->org_im, y);
+	// printf("x = %Lg | y = %Lg\n", var->x, var->y);
+	show(var);
 	return (0);
 }
 
@@ -208,9 +261,9 @@ int	main(int ac, char **av)
 {
 	t_var	var;
 
-	if (ac >= 2)
+	var.func = ft_atoi(av[1]);
+	if (ac >= 2 && (var.func == 1 || var.func == 2 || var.func == 3))
 	{
-		var.func = ft_atoi(av[1]);
 		init(&var);
 		var.mlx = mlx_init();
 		var.win = mlx_new_window(var.mlx, THWT, THWT, "FRACT'OL");
@@ -222,7 +275,7 @@ int	main(int ac, char **av)
 		// mlx_key_hook(var.win, bind, &var);
 
 		mlx_hook(var.win, 17, (1L << 17), xite, &var);
-		mlx_hook(var.win, 6, (1L << 6), mouse_position, &var);
+		// mlx_hook(var.win, 6, (1L << 6), mouse_position, &var);
 
 		mlx_hook(var.win, 4, (1L << 2), mouse_zoom, &var);
 		// mlx_mouse_hook(var.win, mouse_zoom, &var);

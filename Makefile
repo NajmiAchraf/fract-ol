@@ -20,21 +20,6 @@ NAME = fractol
 # OBJ = ./src/fractoljul.c
 OBJ = ./src/fractolmod.c
 
-# MacOS
-# %.o: %.c
-# 	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
-
-# all:
-# 	$(CC) $(OBJ) ./libft/libft.a -lmlx -framework OpenGL -framework AppKit  -o ${NAME}
-
-# linux
-# %.c: %.c
-# 	$(CC) -Wall -Wextra -Werror -I/usr/local/include -Imlx_linux -O3 -c $< -o $@
-
-# all:
-# 	$(CC) $(OBJ) ./libft/libft.a  -lmlx -lXext -lX11 -lm -lz -o $(NAME)
-
-
 ifeq ($(shell uname -s), Linux)
   MLXINC	= -I/usr/local/include -Imlx_linux -O3
   MLXLIB	= ./libft/libft.a -lmlx -lXext -lX11 -lm -lz
