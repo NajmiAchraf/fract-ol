@@ -6,7 +6,7 @@
 /*   By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:31:49 by anajmi            #+#    #+#             */
-/*   Updated: 2022/01/10 02:32:52 by anajmi           ###   ########.fr       */
+/*   Updated: 2022/02/09 15:55:07 by anajmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FRACTOL_H
 
 # include "../libft/libft.h"
+# include "../utils/utils.h"
 # include <stdio.h>
 # include <mlx.h>
 # include <math.h>
@@ -26,7 +27,7 @@ keyboard binds
 
 # define KY_ESC 53
 
-# define THWT 700
+# define THWT 200
 # define CK_LEFT 1
 # define CK_UP 4
 # define CK_DOWN 5
@@ -67,8 +68,7 @@ typedef struct s_var
 	int				line_length;
 	int				endian;
 	char			*dst;
-	// int				x;
-	// int				y;
+	int				wtht;
 	int				k;
 	int				re;
 	int				im;
