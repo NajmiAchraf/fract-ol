@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractolmod.c                                       :+:      :+:    :+:   */
+/*   fractol5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 14:35:42 by anajmi            #+#    #+#             */
-/*   Updated: 2022/02/09 19:36:36 by anajmi           ###   ########.fr       */
+/*   Updated: 2022/02/10 17:12:13 by anajmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/fractol.h"
+#include "fractol2.h"
 
 long double	get_pos(t_var *var, long double position, long double point)
 {
@@ -31,7 +31,6 @@ void	put_pixel_to_image(t_var *data, int x, int y, int color)
 
 void	reset_image(t_var *var)
 {
-	mlx_clear_window(var->mlx, var->win);
 	mlx_destroy_image(var->mlx, var->img);
 	var->img = mlx_new_image(var->mlx, var->wtht, var->wtht);
 	var->addr = mlx_get_data_addr(var->img, &var->bits_per_pixel,
@@ -80,7 +79,8 @@ void	mandelbrot(t_var *var)
 		var->zr = var->zrtmp + var->cr;
 		if (var->zr * var->zr + var->zi * var->zi > 4)
 		{
-			put_pixel_to_image(var, var->re, var->im, colors()[var->k % 16]);
+			put_pixel_to_image(var, var->re, var->im, colors()[var->k % 16]
+				* var->col);
 			break ;
 		}
 	}
@@ -98,31 +98,12 @@ void	julia_set(t_var *var)
 		var->zr = var->zrtmp + var->cr;
 		if (var->zr * var->zr + var->zi * var->zi > 4)
 		{
-			put_pixel_to_image(var, var->re, var->im, colors()[var->k % 16]);
+			put_pixel_to_image(var, var->re, var->im, colors()[var->k % 16]
+				* var->col);
 			break ;
 		}
 	}
 }
-
-/* void	mandelbrot2(t_var *var)
-{
-	var->cr = get_pos(var, var->org_re, var->re);
-	var->ci = get_neg(var, var->org_im, var->im);
-	var->zr = 0;
-	var->zi = 0;
-	var->k = -1;
-	while ((var->zr * var->zr + var->zi * var->zi) < 4  &&  var->k++ < var->dpth) 
-	{
-		var->zrtmp = var->zr * var->zr - var->zi * var->zi;
-		var->zi = 2 * var->zr * var->zi + var->ci;
-		var->zr = var->zrtmp + var->cr;
-	}
-	if (var->k == var->dpth + 1)
-		put_pixel_to_image(var, var->re, var->im, 0x00000000);
-	else
-		put_pixel_to_image(var, var->re, var->im, colors()[var->k % 16]);
-}
- */
 
 void	mandelbrot_set(t_var *var)
 {
@@ -134,14 +115,17 @@ void	mandelbrot_set(t_var *var)
 	while ((var->zr * var->zr + var->zi * var->zi) < 4
 		&& var->k++ < var->dpth)
 	{
-		var->zrtmp = (var->zr * var->zr + var->zi * var->zi) * (var->n * 0.5) * cos(var->n * atan2(var->zi, var->zr)) + var->cr;
-		var->zi = (var->zr * var->zr + var->zi * var->zi) * (var->n * 0.5) * sin(var->n * atan2(var->zi, var->zr)) + var->ci;
+		var->zrtmp = pow((var->zr * var->zr + var->zi * var->zi), var->n * 0.5)
+			* cos(var->n * atan2(var->zi, var->zr)) + var->cr;
+		var->zi = pow(var->zr * var->zr + var->zi * var->zi, var->n * 0.5)
+			* sin(var->n * atan2(var->zi, var->zr)) + var->ci;
 		var->zr = var->zrtmp;
 	}
 	if (var->k == var->dpth + 1)
 		put_pixel_to_image(var, var->re, var->im, 0x00000000);
 	else
-		put_pixel_to_image(var, var->re, var->im, colors()[var->k % 16]);
+		put_pixel_to_image(var, var->re, var->im, colors()[var->k % 16]
+			* var->col);
 }
 
 void	julia_mouse(t_var *var)
@@ -158,7 +142,8 @@ void	julia_mouse(t_var *var)
 		var->zr = var->zrtmp + var->cr;
 		if (var->zr * var->zr + var->zi * var->zi > 4)
 		{
-			put_pixel_to_image(var, var->re, var->im, colors()[var->k % 16]);
+			put_pixel_to_image(var, var->re, var->im, colors()[var->k % 16]
+				* var->col);
 			break ;
 		}
 	}
@@ -172,35 +157,17 @@ void	plot(t_var *var)
 		var->im = -1;
 		while (var->im++ < var->wtht - 1)
 		{
-			if (var->func == 1)
+			if (var->nbfc == 1)
 				mandelbrot(var);
-			else if (var->func == 2)
+			else if (var->nbfc == 2)
 				julia_set(var);
-			else if (var->func == 3)
+			else if (var->nbfc == 3)
 				mandelbrot_set(var);
-			else if (var->func == 4)
+			else if (var->nbfc == 4)
 				julia_mouse(var);
 		}
 	}
 	show_image(var);
-}
-
-void	get_julia(t_var *var, char *s1, char *s2)
-{
-	var->cr = atof(s1);
-	var->ci = atof(s2);
-}
-
-void	init(t_var *var)
-{
-	var->step = 0.5;
-	var->speed = 2;
-	var->zoom = var->wtht / 4.;
-	var->scale = 1./var->zoom;
-	var->org_re = 0;
-	var->org_im = 0;
-	var->trs_re = 0;
-	var->trs_im = 0;
 }
 
 void	show(t_var *var)
@@ -236,6 +203,15 @@ void	execute(int keycode, t_var *var)
 	show(var);
 }
 
+void	color_change(t_var *var)
+{
+	if (var->col > 10)
+		var->col = 1;
+	else if (var->col > 0)
+		var->col += 1;
+	show(var);
+}
+
 int	bind(int keycode, t_var *var)
 {
 	if (keycode == KY_ESC)
@@ -247,6 +223,8 @@ int	bind(int keycode, t_var *var)
 		|| keycode == KY_UP || keycode == KY_SPACE || keycode == KY_PLUS
 		|| keycode == KY_MINUS)
 		execute(keycode, var);
+	else if (keycode == KY_C)
+		color_change(var);
 	return (0);
 }
 
@@ -288,7 +266,7 @@ int	xite(int keycode, t_var *var)
 	return (0);
 }
 
-void	show_help()
+void	show_help(void)
 {
 	ft_putstr_fd("\n", 1);
 	ft_putstr_fd("Usage : || ./fractol [equi width height] [depth]", 1);
@@ -307,27 +285,48 @@ void	show_help()
 	ft_putstr_fd("\t\t4 : Julia set auto-mouse input\n\n", 1);
 }
 
-void	show_control()
+void	show_control(void)
 {
 	ft_putstr_fd("Controls :\n", 1);
-	ft_putstr_fd("\tReset view : Space\n", 1);
 	ft_putstr_fd("\tMove : Up / Down / Left / Right\n", 1);
-	ft_putstr_fd("\tZoom : Mouse Scroll or + / -\n", 1);
+	ft_putstr_fd("\tZoom : \n", 1);
+	ft_putstr_fd("\t\tMouse Scroll by tracking the mouse pointer\n", 1);
+	ft_putstr_fd("\t\tPlus (+) / Minus (-) by tracking the center\n", 1);
+	ft_putstr_fd("\tReset view : Space\n", 1);
 }
 
 int	check_args(t_var *var, int ac, char **av)
 {
-	var->func = ft_atoi(av[3]);
-	if (1 <= var->func && var->func <= 4)
+	var->nbfc = ft_atoi(av[3]);
+	if (1 <= var->nbfc && var->nbfc <= 4)
 	{
 		var->wtht = ft_atoi(av[1]);
 		var->dpth = ft_atoi(av[2]);
-		if ((var->func == 1 && ac == 4) || (var->func == 2 && ac == 6)
-			|| (var->func == 3 && ac == 5) || (var->func == 4 && ac == 4))
+		if ((var->nbfc == 1 && ac == 4) || (var->nbfc == 2 && ac == 6)
+			|| (var->nbfc == 3 && ac == 5) || (var->nbfc == 4 && ac == 4))
 			return (1);
 		return (0);
 	}
 	return (0);
+}
+
+void	get_julia(t_var *var, char *s1, char *s2)
+{
+	var->cr = atof(s1);
+	var->ci = atof(s2);
+}
+
+void	init(t_var *var)
+{
+	var->step = 0.5;
+	var->speed = 2;
+	var->col = 1;
+	var->zoom = var->wtht / 4.;
+	var->scale = 1./var->zoom;
+	var->org_re = 0;
+	var->org_im = 0;
+	var->trs_re = 0;
+	var->trs_im = 0;
 }
 
 void	initialisation(t_var *var)
@@ -344,13 +343,13 @@ void	initialisation(t_var *var)
 
 void	initialisation2(t_var *var, char **av)
 {
-	if (var->func == 2)
+	if (var->nbfc == 2)
 		get_julia(var, av[4], av[5]);
-	else if (var->func == 3)
+	else if (var->nbfc == 3)
 		var->n = ft_atoi(av[4]);
-	if (var->func == 4)
+	if (var->nbfc == 4)
 		mlx_hook(var->win, 6, (1L << 6), mouse_position, var);
-	else if (var->func != 4)
+	else if (var->nbfc != 4)
 		mlx_hook(var->win, 4, (1L << 2), mouse_zoom, var);
 }
 

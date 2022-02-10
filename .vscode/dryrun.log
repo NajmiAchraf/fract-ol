@@ -1,5 +1,6 @@
 make --dry-run --keep-going --print-directory
 make: Entering directory `/Users/anajmi/Documents/42cursus/Fract’ol Project/fract-ol'
 cc ./src/fractolmod.c ./libft/libft.a -lmlx -framework OpenGL -framework AppKit -o fractol
+ 
 make: Leaving directory `/Users/anajmi/Documents/42cursus/Fract’ol Project/fract-ol'
  

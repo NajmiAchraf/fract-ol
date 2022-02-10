@@ -6,7 +6,7 @@
 /*   By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:31:49 by anajmi            #+#    #+#             */
-/*   Updated: 2022/02/10 17:13:15 by anajmi           ###   ########.fr       */
+/*   Updated: 2022/02/09 16:31:54 by anajmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ keyboard binds
 */
 
 # define KY_ESC 53
-# define KY_C 8
 
 # define CK_LEFT 1
 # define CK_UP 4
@@ -86,34 +85,8 @@ typedef struct s_var
 	long double		zr;
 	long double		zi;
 	long double		zrtmp;
-	long double		dist;
-	int				nbfc;
-	int				col;
+	long double		dist; //should delete
+	int				func;
 }					t_var;
-long double	get_pos(t_var *var, long double position, long double point);
-long double	get_neg(t_var *var, long double position, long double point);
-void		put_pixel_to_image(t_var *data, int x, int y, int color);
-void		reset_image(t_var *var);
-int			*colors(void);
-void		color_change(t_var *var);
-void		show_image(t_var *var);
-void		mandelbrot(t_var *var);
-void		julia_set(t_var *var);
-void		mandelbrot_set(t_var *var);
-void		julia_mouse(t_var *var);
-void		plot(t_var *var);
-void		get_julia(t_var *var, char *s1, char *s2);
-void		init(t_var *var);
-void		show(t_var *var);
-void		execute(int keycode, t_var *var);
-int			bind(int keycode, t_var *var);
-int			mouse_position(int x, int y, t_var *var);
-int			mouse_zoom(int keycode, int x, int y, t_var *var);
-int			xite(int keycode, t_var *var);
-void		show_help(void);
-void		show_control(void);
-int			check_args(t_var *var, int ac, char **av);
-void		initialisation(t_var *var);
-void		initialisation2(t_var *var, char **av);
 
 #endif

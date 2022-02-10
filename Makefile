@@ -6,20 +6,21 @@
 #    By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/18 14:50:48 by anajmi            #+#    #+#              #
-#    Updated: 2022/02/09 15:35:01 by anajmi           ###   ########.fr        #
+#    Updated: 2022/02/10 17:42:49 by anajmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
-# FILE = $(FILE:.c=.out)
-# OBJ = ./tests/test0linpx.c
-# OBJ = ./tests/test1manpx.c
-# OBJ = ./tests/test2linimg.c
-# OBJ = ./tests/test3manimg.c
-# OBJ = ./tests/test4julia.c
-# OBJ = ./src/fractol.c
-# OBJ = ./src/fractoljul.c
-OBJ = ./src/fractolmod.c
+FILES = \
+	./src/main.c		\
+	./src/fractol.c		\
+	./src/bind_exec.c	\
+	./src/bind.c		\
+	./src/help.c		\
+	./src/image.c		\
+	./src/value.c
+
+OBJ = $(FILES:.c=.o)
 
 ifeq ($(shell uname -s), Linux)
   MLXINC	= -I/usr/local/include -Imlx_linux -O3
@@ -32,8 +33,11 @@ endif
 %.o: %.c
 	$(CC) -Wall -Wextra -Werror $(MLXINC) -c $< -o $@
 
-all:
-	$(CC) $(OBJ) $(MLXLIB) -o ${NAME}
+all: $(OBJ)
+#$(CC) $(OBJ) $(MLXLIB) -o ${NAME}
+
+$(OBJ): %o:%c
+	echo $@
 
 clean:
 	rm -rf ${NAME}

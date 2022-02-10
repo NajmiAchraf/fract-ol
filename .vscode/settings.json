@@ -8,6 +8,8 @@
         "cctype": "c",
         "locale": "c",
         "utils.h": "c",
-        "fractol.h": "c"
+        "fractol.h": "c",
+        "cstdlib": "c",
+        "mutex": "c"
     }
 }
