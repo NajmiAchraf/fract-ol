@@ -6,14 +6,13 @@
 /*   By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:31:49 by anajmi            #+#    #+#             */
-/*   Updated: 2022/02/10 17:54:42 by anajmi           ###   ########.fr       */
+/*   Updated: 2022/02/11 14:50:37 by anajmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# include "../libft/libft.h"
 # include "../utils/utils.h"
 # include <stdio.h>
 # include <mlx.h>
