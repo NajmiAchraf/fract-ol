@@ -6,7 +6,7 @@
 /*   By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 14:35:42 by anajmi            #+#    #+#             */
-/*   Updated: 2022/02/10 17:35:47 by anajmi           ###   ########.fr       */
+/*   Updated: 2022/02/10 18:45:34 by anajmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ int	check_args(t_var *var, int ac, char **av)
 	if (1 <= var->nbfc && var->nbfc <= 4)
 	{
 		var->wtht = ft_atoi(av[1]);
+		if (var->wtht < 200)
+			return (0);
 		var->dpth = ft_atoi(av[2]);
+		if (var->dpth < 50)
+			return (0);
 		if ((var->nbfc == 1 && ac == 4) || (var->nbfc == 2 && ac == 6)
 			|| (var->nbfc == 3 && ac == 5) || (var->nbfc == 4 && ac == 4))
 			return (1);
@@ -26,7 +30,6 @@ int	check_args(t_var *var, int ac, char **av)
 	}
 	return (0);
 }
-
 
 void	initialisation(t_var *var)
 {

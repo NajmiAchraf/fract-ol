@@ -6,19 +6,24 @@
 #    By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/18 14:50:48 by anajmi            #+#    #+#              #
-#    Updated: 2022/02/10 17:42:49 by anajmi           ###   ########.fr        #
+#    Updated: 2022/02/11 14:43:49 by anajmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
+
 FILES = \
-	./src/main.c		\
-	./src/fractol.c		\
-	./src/bind_exec.c	\
-	./src/bind.c		\
-	./src/help.c		\
-	./src/image.c		\
-	./src/value.c
+	./src/main.c			\
+	./src/fractol.c			\
+	./src/bind_exec.c		\
+	./src/bind.c			\
+	./src/help.c			\
+	./src/image.c			\
+	./src/value.c			\
+	./utils/ft_atof.c		\
+	./utils/ft_atoi.c		\
+	./utils/ft_putchar.c	\
+	./utils/ft_putstr.c
 
 OBJ = $(FILES:.c=.o)
 
@@ -30,17 +35,18 @@ else
   MLXLIB	= ./libft/libft.a -lmlx -framework OpenGL -framework AppKit
 endif
 
-%.o: %.c
-	$(CC) -Wall -Wextra -Werror $(MLXINC) -c $< -o $@
+all: $(NAME) 
 
-all: $(OBJ)
-#$(CC) $(OBJ) $(MLXLIB) -o ${NAME}
+$(NAME): $(OBJ)
+	$(CC) $(OBJ) $(MLXLIB) -o ${NAME}
 
 $(OBJ): %o:%c
-	echo $@
+	$(CC) -c -Wall -Wextra -Werror $(MLXINC) $^ -o $@
 
 clean:
+	rm -rf ${OBJ}
+
+fclean: clean
 	rm -rf ${NAME}
 
-re: clean all
-	
+re: fclean all

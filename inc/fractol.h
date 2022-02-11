@@ -6,7 +6,7 @@
 /*   By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 15:31:49 by anajmi            #+#    #+#             */
-/*   Updated: 2022/02/10 17:13:15 by anajmi           ###   ########.fr       */
+/*   Updated: 2022/02/10 17:54:42 by anajmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void		execute(int keycode, t_var *var);
 int			bind(int keycode, t_var *var);
 int			mouse_position(int x, int y, t_var *var);
 int			mouse_zoom(int keycode, int x, int y, t_var *var);
-int			xite(int keycode, t_var *var);
+int			xite(void);
 void		show_help(void);
 void		show_control(void);
 int			check_args(t_var *var, int ac, char **av);

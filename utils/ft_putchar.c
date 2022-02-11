@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/09 14:15:43 by anajmi            #+#    #+#             */
-/*   Updated: 2022/02/11 13:53:07 by anajmi           ###   ########.fr       */
+/*   Created: 2021/11/12 21:38:40 by anajmi            #+#    #+#             */
+/*   Updated: 2022/02/11 13:52:05 by anajmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include "utils.h"
 
-# include "unistd.h"
-
-double	ft_atof(const char *str);
-int		ft_atoi(const char *str);
-void	ft_putchar(char c);
-void	ft_putstr(char *s);
-
-#endif
+void	ft_putchar(char c)
+{
+	write(1, &c, 1);
+}

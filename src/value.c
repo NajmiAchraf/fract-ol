@@ -6,7 +6,7 @@
 /*   By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 14:35:42 by anajmi            #+#    #+#             */
-/*   Updated: 2022/02/10 17:28:38 by anajmi           ###   ########.fr       */
+/*   Updated: 2022/02/10 18:02:12 by anajmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	init(t_var *var)
 	var->speed = 2;
 	var->col = 1;
 	var->zoom = var->wtht / 4.;
-	var->scale = 1./var->zoom;
+	var->scale = 1. / var->zoom;
 	var->org_re = 0;
 	var->org_im = 0;
 	var->trs_re = 0;

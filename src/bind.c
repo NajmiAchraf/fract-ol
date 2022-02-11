@@ -6,7 +6,7 @@
 /*   By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 14:35:42 by anajmi            #+#    #+#             */
-/*   Updated: 2022/02/10 17:31:02 by anajmi           ###   ########.fr       */
+/*   Updated: 2022/02/10 17:54:56 by anajmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	mouse_zoom(int keycode, int x, int y, t_var *var)
 	return (0);
 }
 
-int	xite(int keycode, t_var *var)
+int	xite(void)
 {
 	exit(1);
 	return (0);
