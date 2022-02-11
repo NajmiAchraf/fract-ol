@@ -6,7 +6,7 @@
 #    By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/18 14:50:48 by anajmi            #+#    #+#              #
-#    Updated: 2022/02/11 14:43:49 by anajmi           ###   ########.fr        #
+#    Updated: 2022/02/11 14:51:30 by anajmi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,10 @@ OBJ = $(FILES:.c=.o)
 
 ifeq ($(shell uname -s), Linux)
   MLXINC	= -I/usr/local/include -Imlx_linux -O3
-  MLXLIB	= ./libft/libftlinux.a -lmlx -lXext -lX11 -lm -lz
+  MLXLIB	= -lmlx -lXext -lX11 -lm -lz
 else
   MLXINC	= -Imlx
-  MLXLIB	= ./libft/libft.a -lmlx -framework OpenGL -framework AppKit
+  MLXLIB	= -lmlx -framework OpenGL -framework AppKit
 endif
 
 all: $(NAME) 
