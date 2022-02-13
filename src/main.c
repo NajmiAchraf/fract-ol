@@ -6,7 +6,7 @@
 /*   By: anajmi <anajmi@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 14:35:42 by anajmi            #+#    #+#             */
-/*   Updated: 2022/02/10 18:45:34 by anajmi           ###   ########.fr       */
+/*   Updated: 2022/02/11 15:19:49 by anajmi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	initialisation(t_var *var)
 	var->img = mlx_new_image(var->mlx, var->wtht, var->wtht);
 	var->addr = mlx_get_data_addr(var->img, &var->bits_per_pixel,
 			&var->line_length, &var->endian);
-	mlx_hook(var->win, 2, (1L << 0), bind, var);
-	mlx_hook(var->win, 17, (1L << 17), xite, var);
+	mlx_hook(var->win, 2, 0, bind, var);
+	mlx_hook(var->win, 17, 0, xite, var);
 }
 
 void	initialisation2(t_var *var, char **av)
@@ -50,9 +50,9 @@ void	initialisation2(t_var *var, char **av)
 	else if (var->nbfc == 3)
 		var->n = ft_atoi(av[4]);
 	if (var->nbfc == 4)
-		mlx_hook(var->win, 6, (1L << 6), mouse_position, var);
+		mlx_hook(var->win, 6, 0, mouse_position, var);
 	else if (var->nbfc != 4)
-		mlx_hook(var->win, 4, (1L << 2), mouse_zoom, var);
+		mlx_hook(var->win, 4, 0, mouse_zoom, var);
 }
 
 int	main(int ac, char **av)
